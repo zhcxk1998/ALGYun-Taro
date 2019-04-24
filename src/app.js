@@ -1,10 +1,11 @@
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/mobx'
 import '@tarojs/async-await'
+import 'taro-ui/dist/style/index.scss';
 
-import Index from './pages/index'
+import Entry from './pages/entry/index'
 
-import counterStore from './store/counter'
+import userStore from './store/userStore'
 
 import './app.css'
 
@@ -15,14 +16,15 @@ import './app.css'
 // }
 
 const store = {
-  counterStore
+  userStore
 }
 
 class App extends Component {
 
   config = {
     pages: [
-      'pages/index/index',
+      'pages/entry/index',
+      // 'pages/index/index',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -45,7 +47,7 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Index />
+        <Entry />
       </Provider>
     )
   }

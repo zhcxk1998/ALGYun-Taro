@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
-import {AtTabBar} from 'taro-ui';
+import { View, Button } from '@tarojs/components';
+import './style.css';
 
 class TabBar extends Component {
 
@@ -7,19 +8,24 @@ class TabBar extends Component {
     navigationBarTitleText: '首页'
   }
 
-  render () {
-    const {current,onClick} = this.props;
+  render() {
+    const {onOpen,current,onClick} = this.props;
+    const arr = ['首页','商城','+','消息','我'];
     return (
-      <AtTabBar
-        fixed
-        tabList={[
-          { title: '首页', iconType: 'home'},
-          { title: '二手交易', iconType: 'shopping-bag' },
-          { title: '个人中心', iconType: 'folder'}
-          ]}
-        onClick={onClick}
-        current={current}
-      />
+      <View className='tabbar'>
+        {arr.map((item,index)=>{
+          return index===2?
+            <View className='tabbar-item' key={index}>
+              <Button className='tabbar-button' onClick={onOpen}>
+                +
+              </Button>
+            </View>
+            :
+            <View className={`tabbar-item ${index===current?'tabbar-selected':''}`} key={index} onClick={()=>{onClick(index)}}>
+              {item}
+            </View>
+        })}
+      </View>
     )
   }
 }

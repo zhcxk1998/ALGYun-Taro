@@ -1,32 +1,67 @@
 import Taro, { Component } from '@tarojs/taro';
-import 'taro-ui/dist/style/index.scss';
+import { View, Text ,Image} from '@tarojs/components';
+import {inject} from '@tarojs/mobx';
+import { AtModal, AtModalContent} from "taro-ui";
 
-import Login from '../../component/Login/index';
-import Register from '../../component/Register/index';
+import TabBar from '../../component/TabBar/index';
 
-
+@inject('userStore')
 class Index extends Component {
   config = {
-    navigationBarTitleText: '登录',
+    navigationBarTitleText: '首页',
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      isLogin: false
+      current: 0,
+      isOpened:false,
     }
   }
 
-  handleChange = () => {
-    this.setState(preState => ({ isLogin: !preState.isLogin }), () => {
-      Taro.setNavigationBarTitle({ title: this.state.isLogin ? '注册' : '登录' })
+  handleChange = (current) => {
+    console.log(current)    
+    this.setState({
+      current
+    })
+  }
+
+  handleOpen = ()=>{
+    console.log('open')
+    this.setState({
+      isOpened:true
+    })
+  }
+
+  handleClose=()=>{
+    this.setState({
+      isOpened:false
     })
   }
 
   render() {
-    const { isLogin } = this.state;
+    const { current ,isOpened} = this.state;
+    const {userStore} = this.props;
+    const style = {
+      background:'red',
+      marginBottom:'10vh'
+    }
     return (
-      !isLogin ? <Login onChange={this.handleChange} /> : <Register onChange={this.handleChange} />
+      <View>
+        <AtModal isOpened={isOpened} onClose={this.handleClose}>
+        <AtModalContent>
+          <Image src='https://cdn.algbb.fun/emoji/30.png' style={{width:'100px',height:'100px'}} />
+        </AtModalContent>
+      </AtModal>
+        {/* <View style={style} >
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => (
+            <View>{item}</View>
+          ))}
+        </View> */}
+        <View>emmm</View>
+        <View>{userStore.username}</View>
+        <TabBar current={current} onClick={this.handleChange} onOpen={this.handleOpen} />
+      </View>
     )
   }
 }

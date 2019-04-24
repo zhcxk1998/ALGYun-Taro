@@ -1,10 +1,14 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Button, Text, Input, Image, Form } from '@tarojs/components';
 import { AtMessage } from 'taro-ui';
+import {inject} from '@tarojs/mobx';
 
-import '../../pages/index/style.css'
-
+@inject('userStore')
 class Login extends Component {
+  static options = {
+    addGlobalClass: true
+  }
+
   config = {
     navigationBarTitleText: '注册'
   }
@@ -17,6 +21,7 @@ class Login extends Component {
   }
 
   async handleSubmit(e) {
+    const {userStore}
     const { email, password, nickname } = e.target.value;
     if (!email || !password || !nickname) {
       this.showMessage('请输入完整信息！');
@@ -33,6 +38,9 @@ class Login extends Component {
       }
     })
     switch (statusCode) {
+      case 200:
+        this.showMessage('注册成功', 'success');
+        break;
       case 401:
         this.showMessage(data['err'],'error')
         break;
@@ -40,7 +48,7 @@ class Login extends Component {
         this.showMessage('网络异常', 'error');
         break;
       default:
-        this.showMessage('注册成功', 'success');
+        this.showMessage('未知错误', 'success');
     }
   }
 
@@ -56,7 +64,7 @@ class Login extends Component {
           <Input name='nickname' className='form-input' type='text' placeholder='昵称' />
           <Button className='form-button' formType='submit'>注册</Button>
         </Form>
-        <Text className='form-change' onClick={onChange} >立即登录</Text>
+        <Text className='form-change' onClick={()=>{onChange(0)}} >立即登录</Text>
       </View>
     )
   }
