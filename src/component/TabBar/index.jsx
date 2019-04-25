@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Button } from '@tarojs/components';
+import { View, Button ,Image} from '@tarojs/components';
 import './style.css';
 
 class TabBar extends Component {
@@ -17,7 +17,7 @@ class TabBar extends Component {
           return index===2?
             <View className='tabbar-item' key={index}>
               <Button className='tabbar-button' onClick={onOpen}>
-                +
+                {/* <Image src={require('./add.png')} style={{width:'8vh',height:'8vh'}}/> */}
               </Button>
             </View>
             :

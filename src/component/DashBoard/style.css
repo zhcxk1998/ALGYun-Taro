@@ -1,0 +1,45 @@
+.dashBoard {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
+}
+
+.infomation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 30vh;
+  padding: 30px 10px;
+  background-image: url(http://cdn.algbb.fun/ImageMessages/BB_1544181003178);
+  background-size: 100%;
+}
+
+.avater{
+  width: 200px;
+  height: 200px;
+}
+
+.userName {
+  color: #333;
+  font-weight: bold;
+}
+
+.info {
+  overflow: hidden;
+  width: 80vw;
+  margin-top: 2vh;
+  color: #333;
+  font-size: 4vw;
+  text-overflow: ellipsis;
+  white-space: nowrap
+}
+
+.quit {
+  width: 100%;
+  margin-top: 2vh;
+  color: white;
+  letter-spacing: 16px;
+  background-color: red;
+}

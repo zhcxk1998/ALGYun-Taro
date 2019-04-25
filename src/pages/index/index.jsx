@@ -1,9 +1,12 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Text ,Image} from '@tarojs/components';
-import {inject} from '@tarojs/mobx';
-import { AtModal, AtModalContent} from "taro-ui";
+import { View, Text, Image, Button } from '@tarojs/components';
+import { inject } from '@tarojs/mobx';
+import { AtModal, AtModalContent, AtGrid, AtList, AtListItem } from "taro-ui";
 
+import DashBoard from '../../component/DashBoard/index';
 import TabBar from '../../component/TabBar/index';
+import './style.css';
+
 
 @inject('userStore')
 class Index extends Component {
@@ -15,51 +18,45 @@ class Index extends Component {
     super(props)
     this.state = {
       current: 0,
-      isOpened:false,
+      isOpened: false,
     }
   }
 
   handleChange = (current) => {
-    console.log(current)    
+    console.log(current)
     this.setState({
       current
     })
   }
 
-  handleOpen = ()=>{
+  handleOpen = () => {
     console.log('open')
     this.setState({
-      isOpened:true
+      isOpened: true
     })
   }
 
-  handleClose=()=>{
+  handleClose = () => {
     this.setState({
-      isOpened:false
+      isOpened: false
     })
   }
 
   render() {
-    const { current ,isOpened} = this.state;
-    const {userStore} = this.props;
-    const style = {
-      background:'red',
-      marginBottom:'10vh'
-    }
+    const { current, isOpened } = this.state;
+    const { userStore } = this.props;
     return (
       <View>
         <AtModal isOpened={isOpened} onClose={this.handleClose}>
-        <AtModalContent>
-          <Image src='https://cdn.algbb.fun/emoji/30.png' style={{width:'100px',height:'100px'}} />
-        </AtModalContent>
-      </AtModal>
-        {/* <View style={style} >
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(item => (
-            <View>{item}</View>
-          ))}
-        </View> */}
-        <View>emmm</View>
-        <View>{userStore.username}</View>
+          <AtModalContent>
+            <Image src='https://cdn.algbb.fun/emoji/30.png' style={{ width: '100px', height: '100px' }} />
+          </AtModalContent>
+        </AtModal>
+        <View style={{ marginBottom: '10vh' }}>
+          <View hidden={current !== 4}>
+            <DashBoard hidden={current!==4} />
+          </View>
+        </View>
         <TabBar current={current} onClick={this.handleChange} onOpen={this.handleOpen} />
       </View>
     )

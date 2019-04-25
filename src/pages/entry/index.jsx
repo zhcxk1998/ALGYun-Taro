@@ -8,7 +8,7 @@ import './style.css'
 
 class Entry extends Component {
   config = {
-    navigationBarTitleText: '登录',
+    navigationBarTitleText: '首页',
   }
 
   constructor(props) {

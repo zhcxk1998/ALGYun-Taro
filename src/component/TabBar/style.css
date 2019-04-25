@@ -7,7 +7,8 @@
   bottom: 0;
   width: 100vw;
   height: 10vh;
-  border-top: #d7d7d7 3px solid;
+  background: #fff;
+  box-shadow:0 0 20px 5px #d7d7d7;
 }
 
 .tabbar-item{
@@ -24,7 +25,8 @@
   height: 8vh;
   color: #fff;
   border-radius: 50%;
-  background: red;
+  background: url(../../assets/img/add.png) no-repeat;
+  background-size: cover;
 }
 
 .tabbar-selected{
