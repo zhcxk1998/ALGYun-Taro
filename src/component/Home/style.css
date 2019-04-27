@@ -1,0 +1,45 @@
+.home{
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  width: 96vw;
+  padding: 0 2vw;
+}
+
+.swiper{
+  width: 96vw;
+  height: 30vh;
+}
+
+.swiper-item{
+  width: 100%;
+}
+
+.title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5em 0;
+  padding-left: 0.5em;
+  font-size: 1.2em;
+  border-left: #fa4b2a 5px solid;
+}
+
+.title Text:last-child{
+  color: #666;
+  font-size: 0.6em;
+}
+
+.shop{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.shop-item{
+  width: 45vw;
+  height: 200px;
+  margin: 2vw 0;
+  background: red;
+}

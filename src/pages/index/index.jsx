@@ -1,12 +1,15 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Button } from '@tarojs/components';
 import { inject } from '@tarojs/mobx';
-import { AtModal, AtModalContent, AtGrid, AtList, AtListItem } from "taro-ui";
+import { AtModal, AtModalContent } from "taro-ui";
 
+import Login from '../../component/Login/index';
+
+import Home from '../../component/Home/index';
+import Message from '../../component/Message/index';
 import DashBoard from '../../component/DashBoard/index';
 import TabBar from '../../component/TabBar/index';
 import './style.css';
-
 
 @inject('userStore')
 class Index extends Component {
@@ -23,14 +26,14 @@ class Index extends Component {
   }
 
   handleChange = (current) => {
-    console.log(current)
+    const title = ['首页', '商城', '', '消息', '我']
+    Taro.setNavigationBarTitle({ title: title[current] })
     this.setState({
       current
     })
   }
 
   handleOpen = () => {
-    console.log('open')
     this.setState({
       isOpened: true
     })
@@ -53,8 +56,17 @@ class Index extends Component {
           </AtModalContent>
         </AtModal>
         <View style={{ marginBottom: '10vh' }}>
+          <View hidden={current !== 0}>
+            <Home />
+          </View>
+          <View hidden={current !== 1}>
+            {/* <Login /> */}
+          </View>
+          <View hidden={current !== 3}>
+            <Message />
+          </View>
           <View hidden={current !== 4}>
-            <DashBoard hidden={current!==4} />
+            <DashBoard />
           </View>
         </View>
         <TabBar current={current} onClick={this.handleChange} onOpen={this.handleOpen} />
