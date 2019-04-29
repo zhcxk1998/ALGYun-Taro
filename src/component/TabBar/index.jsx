@@ -10,7 +10,7 @@ class TabBar extends Component {
 
   render() {
     const {onOpen,current,onClick} = this.props;
-    const arr = ['首页','商城','+','消息','我'];
+    const arr = ['首页','互助','+','消息','我'];
     return (
       <View className='tabbar'>
         {arr.map((item,index)=>{

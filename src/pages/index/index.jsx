@@ -26,7 +26,7 @@ class Index extends Component {
   }
 
   handleChange = (current) => {
-    const title = ['首页', '商城', '', '消息', '我']
+    const title = ['首页', '互助', '', '消息', '我']
     Taro.setNavigationBarTitle({ title: title[current] })
     this.setState({
       current
