@@ -4,6 +4,8 @@ import { AtSearchBar } from "taro-ui";
 
 import './style.css';
 
+import mockCommodity from '../../utils/mockCommodity';
+
 class Home extends Component {
   config = {
     navigationBarTitleText: '首页',
@@ -26,35 +28,31 @@ class Home extends Component {
     const { searchValue } = this.state;
     return (
       <View className='home'>
-        <AtSearchBar
-          value={searchValue}
-          onChange={this.handleChange}
-        />
+        <View className='search-bar'>
+          <AtSearchBar
+            value={searchValue}
+            onChange={this.handleChange}
+          />
+        </View>
         <Swiper
           className='swiper'
-          indicatorColor='#999'
-          indicatorActiveColor='#333'
+          indicatorColor='#d7d7d7'
+          indicatorActiveColor='#999'
           circular
           indicatorDots
           autoplay
         >
           <SwiperItem>
-            <Image src='http://cdn.algbb.fun/ImageMessages/BB_1545102278657' className='swiper-item' />
+            <Image src='https://cdn.algbb.fun/algyun/slider/1.png' className='swiper-item' />
           </SwiperItem>
           <SwiperItem>
-            <Image src='http://cdn.algbb.fun/ImageMessages/BB_1545102282622' className='swiper-item' />
+            <Image src='https://cdn.algbb.fun/algyun/slider/2.png' className='swiper-item' />
           </SwiperItem>
           <SwiperItem>
-            <Image src='http://cdn.algbb.fun/ImageMessages/BB_1545102287236' className='swiper-item' />
+            <Image src='https://cdn.algbb.fun/algyun/slider/3.png' className='swiper-item' />
           </SwiperItem>
           <SwiperItem>
-            <Image src='http://cdn.algbb.fun/ImageMessages/BB_1545102274247' className='swiper-item' />
-          </SwiperItem>
-          <SwiperItem>
-            <Image src='http://cdn.algbb.fun/ImageMessages/BB_1545102295283' className='swiper-item' />
-          </SwiperItem>
-          <SwiperItem>
-            <Image src='http://cdn.algbb.fun/ImageMessages/BB_1545208892117' className='swiper-item' />
+            <Image src='https://cdn.algbb.fun/algyun/slider/4.png' className='swiper-item' />
           </SwiperItem>
         </Swiper>
         <View className='title'>
@@ -62,12 +60,19 @@ class Home extends Component {
           <Text>更多</Text>
         </View>
         <View className='shop'>
-          {[200, 200,200,200,200,200].map((item,index) => (
-            <View key={index} className='shop-item' style={{ height: item+'px' }}></View>
-
+          {mockCommodity.map((item, index) => (
+            <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`}>
+              <Image className='img' src={item} />
+              <View className='description'>
+                城野先生控油收缩毛孔收敛水补水保湿男女士VC化妆水城野先生控油收缩毛孔收敛水补水保湿男女士VC化妆水
+              </View>
+              <View className='price'>
+                <Text>¥200</Text>
+                <Text>···</Text>
+              </View>
+            </View>
           ))}
         </View>
-
       </View>
     )
   }
