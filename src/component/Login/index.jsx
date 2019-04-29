@@ -22,42 +22,66 @@ class Login extends Component {
   }
 
   async handleSubmit(e) {
-    const {onChange,userStore} = this.props;
-    userStore.setName('bbbb')
-    onChange(2)
-    // const { email, password } = e.target.value;
-    // if (!email || !password) {
-    //   this.showMessage('请输入完整信息！');
-    //   return;
-    // }
-    // Taro.showLoading({title:'请稍等...'})
-    // const { data, statusCode } = await Taro.request({
+    // const login = await Taro.request({
     //   url: 'https://algyun.cn:81/users/',
     //   method: 'POST',
     //   data: {
-    //     email,
-    //     password,
+    //     email:'1@1.com',
+    //     password:'123',
     //     device: 'weapp'
     //   }
     // })
-    // Taro.hideLoading();
-    // switch (statusCode) {
-    //   case 200:
-    //     this.showMessage('登陆成功', 'success');
-    //     Taro.navigateTo({
-    //       url: '/pages/index/index'
-    //     })
-    //     break;
-    //   case 401:
-    //   case 403:
-    //     this.showMessage(data['err'], 'error');
-    //     break;
-    //   case 500:
-    //     this.showMessage('网络异常', 'error');
-    //     break;
-    //   default:
-    //     this.showMessage('未知错误', 'error');
-    // }
+    // const cookie = login.header['Set-Cookie']
+    // const res = await Taro.request({
+    //   url:'https://algyun.cn:81/users/dashboard/me/',
+    //   method:'GET',
+    //   header:{
+    //     cookie
+    //   }
+    // })
+    const { userStore } = this.props;
+    const { email, password } = e.target.value;
+    if (!email || !password) {
+      this.showMessage('请输入完整信息！');
+      return;
+    }
+    userStore.setName('bbbb')
+    Taro.showLoading({ title: '登录中...' })
+    const { data, statusCode } = await Taro.request({
+      url: 'https://algyun.cn:81/users/',
+      method: 'POST',
+      data: {
+        email,
+        password,
+        device: 'weapp'
+      }
+    })
+    Taro.hideLoading();
+    switch (statusCode) {
+      case 200:
+        this.showMessage('登陆成功', 'success');
+        userStore.handleLogin(true);
+        Taro.reLaunch({
+          url:'/pages/index/index'
+        }).then(()=>{
+          userStore.handleChange(4)
+        })
+        break;
+      case 401:
+      case 403:
+        this.showMessage(data['err'], 'error');
+        break;
+      case 500:
+        this.showMessage('网络异常', 'error');
+        break;
+      default:
+        this.showMessage('未知错误', 'error');
+    }
+    // const res = await Taro.request({
+    //   url: 'https://algyun.cn:81/users/dashboard/me/',
+    //   method: 'GET'
+    // })
+    // console.log(res)
   }
 
   render() {
