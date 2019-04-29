@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Image, Text } from '@tarojs/components';
-import { AtList, AtListItem } from 'taro-ui';
+import { AtList, AtListItem,AtGrid } from 'taro-ui';
 import './style.css';
 
 import mockMessage from '../../utils/mockMessage';
@@ -17,6 +17,23 @@ class Message extends Component {
     const { random } = this.state;
     return (
       <View>
+        <AtGrid hasBorder={false} data={
+          [
+            {
+              image: 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556506860273.png?width=32&height=32&imageView2/3/w/38/h/38',
+              value: '收藏'
+            },
+            {
+              image: 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556506855609.png?width=32&height=32',
+              value: '关注'
+            },
+            {
+              image: 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556506865187.png?width=32&height=32&imageView2/3/w/38/h/38',
+              value: '评论'
+            }
+          ]
+        }
+        />
         <Text className='message-title'>联系人</Text>
         {mockMessage.slice(random, random + 15).map((item, index) => (
           <View className='message-item' key={index}>
