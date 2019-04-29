@@ -3,7 +3,7 @@ import { Provider } from '@tarojs/mobx'
 import '@tarojs/async-await'
 import 'taro-ui/dist/style/index.scss';
 
-import Entry from './pages/entry/index'
+import Index from './pages/index/index'
 
 import userStore from './store/userStore'
 
@@ -23,8 +23,8 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/index/index',
       'pages/entry/index',
-      // 'pages/index/index',
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -47,7 +47,7 @@ class App extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Entry />
+        <Index />
       </Provider>
     )
   }

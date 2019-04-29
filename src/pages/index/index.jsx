@@ -1,17 +1,16 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Button } from '@tarojs/components';
-import { inject } from '@tarojs/mobx';
+import { observer, inject } from '@tarojs/mobx';
 import { AtModal, AtModalContent } from "taro-ui";
-
-import Login from '../../component/Login/index';
 
 import Home from '../../component/Home/index';
 import Message from '../../component/Message/index';
 import DashBoard from '../../component/DashBoard/index';
 import TabBar from '../../component/TabBar/index';
-import './style.css';
+
 
 @inject('userStore')
+@observer
 class Index extends Component {
   config = {
     navigationBarTitleText: '首页',
@@ -20,17 +19,24 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      current: 0,
       isOpened: false,
     }
   }
 
+  componentWillMount() {
+    Taro.showLoading({ title: '加载中...' })
+  }
+
+  componentDidMount() {
+    Taro.hideLoading()
+  }
+
+
   handleChange = (current) => {
-    const title = ['首页', '互助', '', '消息', '我']
+    const { userStore } = this.props;
+    const title = ['首页', '互助', '', '消息', '我'];
     Taro.setNavigationBarTitle({ title: title[current] })
-    this.setState({
-      current
-    })
+    userStore.handleChange(current)
   }
 
   handleOpen = () => {
@@ -46,8 +52,9 @@ class Index extends Component {
   }
 
   render() {
-    const { current, isOpened } = this.state;
+    const { isOpened } = this.state;
     const { userStore } = this.props;
+    const { current } = userStore;
     return (
       <View>
         <AtModal isOpened={isOpened} onClose={this.handleClose}>
