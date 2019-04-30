@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Button } from '@tarojs/components';
 import { observer, inject } from '@tarojs/mobx';
-import { AtModal, AtModalContent } from "taro-ui";
+import { AtModal, AtModalContent, AtGrid } from "taro-ui";
 
 import Home from '../../component/Home/index';
 import Message from '../../component/Message/index';
@@ -59,7 +59,23 @@ class Index extends Component {
       <View>
         <AtModal isOpened={isOpened} onClose={this.handleClose}>
           <AtModalContent>
-            <Image src='https://cdn.algbb.fun/emoji/30.png' style={{ width: '100px', height: '100px' }} />
+            <AtGrid onClick={this.gridClick} hasBorder columnNum={2} data={
+              [
+                {
+                  image: require('../../assets/img/icon/item.png'),
+                  value: '上架商品'
+                },
+                {
+                  image: require('../../assets/img/icon/article.png'),
+                  value: '编写文章'
+                },
+                {
+                  image: require('../../assets/img/icon/help.png'),
+                  value: '发布求助'
+                }
+              ]
+            }
+            />
           </AtModalContent>
         </AtModal>
         <View style={{ marginBottom: '10vh' }}>
