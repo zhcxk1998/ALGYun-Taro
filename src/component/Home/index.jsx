@@ -14,7 +14,8 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchValue: ''
+      searchValue: '',
+      commodityList: []
     }
   }
 
@@ -24,8 +25,21 @@ class Home extends Component {
     })
   }
 
+  async componentWillMount() {
+    const { data } = await Taro.request({
+      url: 'https://algyun.cn:81/market/list/',
+      data: {
+        page: 0
+      }
+    })
+    const { commodityList } = data;
+    this.setState({
+      commodityList
+    })
+  }
+
   render() {
-    const { searchValue } = this.state;
+    const { searchValue, commodityList } = this.state;
     return (
       <View className='home'>
         <View className='search-bar'>
@@ -60,15 +74,16 @@ class Home extends Component {
           <Text>更多</Text>
         </View>
         <View className='shop'>
-          {mockCommodity.map((item, index) => (
+          {commodityList.map((item, index) => (
             <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`}>
-              <Image className='img' src={item} />
+              <View className='img' style={{backgroundImage:`url(${item.commodity_img})`}} />
+              {/* <View className='img' /> */}
               <View className='description'>
-                城野先生控油收缩毛孔收敛水补水保湿男女士VC化妆水城野先生控油收缩毛孔收敛水补水保湿男女士VC化妆水
+                {item.name}
               </View>
               <View className='price'>
-                <Text>¥200</Text>
-                <Text>···</Text>
+                <Text>¥{item.price}</Text>
+                <Text>{item.seller.user}</Text>
               </View>
             </View>
           ))}

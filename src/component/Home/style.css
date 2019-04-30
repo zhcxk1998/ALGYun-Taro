@@ -68,19 +68,19 @@
 .shop-item .img{
   width: 250px;
   height: 300px;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .shop-item .description{
   overflow: hidden;
   text-overflow: ellipsis;
-  /* white-space: nowrap; */
   display: -webkit-box;
   -webkit-line-clamp:2;
   -webkit-box-orient: vertical;
   width: 100%;
-  /* height: 100px; */
+  height: 88px;
   font-size: 0.9em;
-  /* background: red; */
 }
 
 .shop-item .price{
@@ -93,12 +93,12 @@
 
 .shop-item .price Text:first-child{
   color: #fa4b2a;
-  font-size: 0.8em;
+  font-size: 0.9em;
   font-weight: bold;
 }
 
 .shop-item .price Text:last-child{
   color: #c7c7c7;
   font-size: 0.8em;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
