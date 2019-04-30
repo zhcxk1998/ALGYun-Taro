@@ -21,11 +21,11 @@
 }
 
 .tabbar-button{
-  width: 8vh;
-  height: 8vh;
+  width: 6vh;
+  height: 6vh;
   color: #fff;
   border-radius: 50%;
-  background: url(../../assets/img/add.png) no-repeat;
+  background: url('https://cdn.algbb.fun/add-button.png') no-repeat;
   background-size: cover;
 }
 

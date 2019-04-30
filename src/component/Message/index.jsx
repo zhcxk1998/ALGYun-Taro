@@ -20,15 +20,15 @@ class Message extends Component {
         <AtGrid hasBorder={false} data={
           [
             {
-              image: 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556506860273.png?width=32&height=32&imageView2/3/w/38/h/38',
+              image: 'https://cdn.algbb.fun/star.png',
               value: '收藏'
             },
             {
-              image: 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556506855609.png?width=32&height=32',
+              image: 'https://cdn.algbb.fun/focus.png',
               value: '关注'
             },
             {
-              image: 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556506865187.png?width=32&height=32&imageView2/3/w/38/h/38',
+              image: 'https://cdn.algbb.fun/comment.png',
               value: '评论'
             }
           ]
