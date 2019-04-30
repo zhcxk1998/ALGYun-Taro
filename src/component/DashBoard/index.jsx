@@ -26,6 +26,16 @@ class DashBoard extends Component {
 
   back = () => {
     const { userStore } = this.props;
+    Taro.request({
+      url: 'https://algyun.cn:81/users/',
+      method: 'DELETE',
+      header: {
+        cookie: Taro.getStorageSync('cookie')
+      }
+    }).then(() => {
+      Taro.removeStorageSync('cookie')
+    })
+
     userStore.handleLogin(false)
     Taro.reLaunch({
       url: '/pages/index/index'
