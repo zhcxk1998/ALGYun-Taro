@@ -4,18 +4,19 @@ import { AtSearchBar } from "taro-ui";
 
 import './style.css';
 
-import mockCommodity from '../../utils/mockCommodity';
+// import mockCommodity from '../../utils/mockCommodity';
 
 class Home extends Component {
+
   config = {
     navigationBarTitleText: '首页',
+
   }
 
   constructor(props) {
     super(props)
     this.state = {
       searchValue: '',
-      commodityList: []
     }
   }
 
@@ -25,21 +26,13 @@ class Home extends Component {
     })
   }
 
-  async componentWillMount() {
-    const { data } = await Taro.request({
-      url: 'https://algyun.cn:81/market/list/',
-      data: {
-        page: 0
-      }
-    })
-    const { commodityList } = data;
-    this.setState({
-      commodityList
-    })
+  componentWillMount() {
+    
   }
 
   render() {
-    const { searchValue, commodityList } = this.state;
+    const { searchValue } = this.state;
+    const { commodityList } = this.props;
     return (
       <View className='home'>
         <View className='search-bar'>
@@ -74,9 +67,9 @@ class Home extends Component {
           <Text>更多</Text>
         </View>
         <View className='shop'>
-          {commodityList.map((item, index) => (
+          {commodityList && commodityList.map((item, index) => (
             <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`}>
-              <View className='img' style={{backgroundImage:`url(${item.commodity_img})`}} />
+              <View className='img' style={{ backgroundImage: `url(${item.commodity_img})` }} />
               {/* <View className='img' /> */}
               <View className='description'>
                 {item.name}

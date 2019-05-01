@@ -20,17 +20,42 @@ class Index extends Component {
     super(props)
     this.state = {
       isOpened: false,
+      commodityList: []
     }
   }
 
-  componentWillMount() {
-    Taro.showLoading({ title: '加载中...' })
+  onPullDownRefresh() {
+    Taro.showNavigationBarLoading()
+    this.fetchCommodity().then(() => {
+      Taro.hideNavigationBarLoading()
+      Taro.stopPullDownRefresh()
+    })
   }
 
-  componentDidMount() {
+  async componentWillMount() {
+    Taro.showLoading({ title: '加载中...' })
+    this.fetchCommodity()
+  }
+
+  componentDidShow() {
     Taro.hideLoading()
   }
 
+  fetchCommodity() {
+    return new Promise(async (resolve, reject) => {
+      const { data } = await Taro.request({
+        url: 'https://algyun.cn:81/market/list/',
+        data: {
+          page: 1
+        }
+      })
+      const { commodityList } = data;
+      this.setState({
+        commodityList
+      })
+      resolve()
+    })
+  }
 
   handleChange = (current) => {
     const { userStore } = this.props;
@@ -52,7 +77,7 @@ class Index extends Component {
   }
 
   render() {
-    const { isOpened } = this.state;
+    const { isOpened, commodityList } = this.state;
     const { userStore } = this.props;
     const { current } = userStore;
     return (
@@ -80,7 +105,7 @@ class Index extends Component {
         </AtModal>
         <View style={{ marginBottom: '10vh' }}>
           <View hidden={current !== 0}>
-            <Home />
+            <Home commodityList={commodityList} />
           </View>
           <View hidden={current !== 1}>
             {/* <Login /> */}
