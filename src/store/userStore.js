@@ -2,7 +2,7 @@ import { observable } from 'mobx'
 
 const userStore = observable({
   isLogin: false,
-  username: 'wadaaw',
+  userInfo: {},
   current: 0,
   handleChange(current) {
     this.current = current
@@ -10,9 +10,8 @@ const userStore = observable({
   handleLogin(status) {
     this.isLogin = status
   },
-  setName(name) {
-    this.username = name;
+  setUserInfo(userInfo) {
+    this.userInfo = userInfo
   }
-
 })
 export default userStore

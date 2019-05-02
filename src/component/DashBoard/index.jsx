@@ -5,6 +5,9 @@ import { inject } from '@tarojs/mobx';
 
 import './style.css';
 
+import privateLink from '../../utils/privateLink';
+
+
 @inject('userStore')
 class DashBoard extends Component {
   config = {
@@ -35,7 +38,6 @@ class DashBoard extends Component {
     }).then(() => {
       Taro.removeStorageSync('cookie')
     })
-
     userStore.handleLogin(false)
     Taro.reLaunch({
       url: '/pages/index/index'
@@ -44,8 +46,18 @@ class DashBoard extends Component {
     })
   }
 
+  gridClick = (item, index) => {
+    const { userStore } = this.props;
+    const { isLogin } = userStore;
+    const linkList = ['sell'].map((link) => {
+      return `/pages/${link}/index`
+    });
+    privateLink(isLogin, linkList[index])
+  }
+
   render() {
-    const { isLogin } = this.props.userStore;
+    const { userStore } = this.props;
+    const { isLogin, userInfo: { nickname } } = userStore;
     return (
       <View>
         <View className='dashBoard'>
@@ -57,7 +69,7 @@ class DashBoard extends Component {
               :
               <View className='infomation'>
                 <Image src='http://cdn.algbb.fun/emoji/32.png' className='avater' />
-                <Text className='userName'>BB</Text>
+                <Text className='userName'>{nickname}</Text>
                 <Text className='info'>我是一名好学生，我的爱好是打游戏，不爱学习</Text>
               </View>
           }
@@ -65,8 +77,8 @@ class DashBoard extends Component {
             <AtGrid onClick={this.gridClick} mode='rect' hasBorder data={
               [
                 {
-                  image: require('../../assets/img/icon/record.png'),
-                  value: '购买记录'
+                  image: require('../../assets/img/icon/good.png'),
+                  value: '我的出售'
                 },
                 {
                   image: require('../../assets/img/icon/manage.png'),
@@ -85,6 +97,10 @@ class DashBoard extends Component {
               <AtListItem
                 title='我的钱包'
                 thumb={require('../../assets/img/icon/wallet.png')}
+              />
+              <AtListItem
+                title='购买记录'
+                thumb={require('../../assets/img/icon/record.png')}
               />
               <AtListItem
                 title='个人设置'
