@@ -41,7 +41,25 @@ class Login extends Component {
     switch (statusCode) {
       case 200:
         this.showMessage('注册成功', 'success');
+        const { header } = await Taro.request({
+          url: 'https://algyun.cn:81/users/',
+          method: 'POST',
+          data: {
+            email,
+            password,
+            device: 'weapp'
+          }
+        })
         userStore.handleLogin(true);
+        Taro.setStorageSync('cookie', header['Set-Cookie'])
+        const { data: { myself } } = await Taro.request({
+          method: 'GET',
+          url: 'https://algyun.cn:81/users/dashboard/me/',
+          header: {
+            'Cookie': Taro.getStorageSync('cookie')
+          }
+        })
+        userStore.setUserInfo(myself)
         Taro.reLaunch({
           url: '/pages/index/index'
         }).then(() => {

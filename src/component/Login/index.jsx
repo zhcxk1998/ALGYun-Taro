@@ -45,7 +45,6 @@ class Login extends Component {
       this.showMessage('请输入完整信息！');
       return;
     }
-    userStore.setName('bbbb')
     Taro.showLoading({ title: '登录中...' })
     const { data, statusCode, header } = await Taro.request({
       url: 'https://algyun.cn:81/users/',
@@ -61,6 +60,14 @@ class Login extends Component {
       case 200:
         this.showMessage('登陆成功', 'success');
         Taro.setStorageSync('cookie', header['Set-Cookie'])
+        const { data: { myself } } = await Taro.request({
+          method: 'GET',
+          url: 'https://algyun.cn:81/users/dashboard/me/',
+          header: {
+            'Cookie': Taro.getStorageSync('cookie')
+          }
+        })
+        userStore.setUserInfo(myself)
         userStore.handleLogin(true);
         Taro.reLaunch({
           url: '/pages/index/index'
