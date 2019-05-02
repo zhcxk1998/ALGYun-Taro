@@ -26,7 +26,9 @@ class Index extends Component {
 
   onPullDownRefresh() {
     Taro.showNavigationBarLoading()
+    Taro.showLoading({ title: '刷新中...' })
     this.fetchCommodity().then(() => {
+      Taro.hideLoading()
       Taro.hideNavigationBarLoading()
       Taro.stopPullDownRefresh()
     })
