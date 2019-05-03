@@ -2,6 +2,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  position: relative;
+  width: 96vw;
+  padding: 0 2vw;
 }
 
 .shop-item{
