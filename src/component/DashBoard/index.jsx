@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Button } from '@tarojs/components';
 import { AtGrid, AtList, AtListItem } from "taro-ui";
-import { inject } from '@tarojs/mobx';
+import { inject ,observer } from '@tarojs/mobx';
 
 import './style.css';
 
@@ -9,6 +9,7 @@ import privateLink from '../../utils/privateLink';
 
 
 @inject('userStore')
+@observer
 class DashBoard extends Component {
   config = {
     navigationBarTitleText: '个人中心',

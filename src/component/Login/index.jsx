@@ -51,12 +51,12 @@ class Login extends Component {
           }
         })
         userStore.setUserInfo(myself)
-        userStore.handleLogin(true);
-        Taro.reLaunch({
-          url: '/pages/index/index'
-        }).then(() => {
-          userStore.handleChange(4)
+        userStore.handleLogin(true)
+        userStore.handleChange(4)
+        Taro.navigateBack({
+          delta: 1
         })
+
         break;
       case 401:
       case 403:
