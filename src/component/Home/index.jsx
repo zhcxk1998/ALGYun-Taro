@@ -1,16 +1,16 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Button, Swiper, SwiperItem } from '@tarojs/components';
 import { AtSearchBar } from "taro-ui";
+import { observer, inject } from '@tarojs/mobx';
 
 import './style.css';
 
-// import mockCommodity from '../../utils/mockCommodity';
-
+@inject('userStore')
+@observer
 class Home extends Component {
 
   config = {
     navigationBarTitleText: '首页',
-
   }
 
   constructor(props) {
@@ -27,12 +27,13 @@ class Home extends Component {
   }
 
   componentWillMount() {
-    
+
   }
 
   render() {
     const { searchValue } = this.state;
-    const { commodityList } = this.props;
+    const { userStore } = this.props;
+    const { commodityList } = userStore;
     return (
       <View className='home'>
         <View className='search-bar'>

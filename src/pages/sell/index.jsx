@@ -15,53 +15,32 @@ class Sell extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      commodityList: []
-    }
   }
 
   async componentWillMount() {
+    const { userStore } = this.props;
     Taro.showLoading({ title: '加载中...' })
-    this.fetchCommodity().then(() => {
+    userStore.fetchCommodity().then(() => {
       Taro.hideLoading()
     })
   }
 
-  fetchCommodity() {
-    const { userStore } = this.props;
-    const { userInfo: { nickname } } = userStore;
-    return new Promise(async (resolve, reject) => {
-      const { data } = await Taro.request({
-        url: 'https://algyun.cn:81/market/list/',
-        data: {
-          page: 1
-        }
-      })
-      const { commodityList } = data;
-      console.log(commodityList)
-      this.setState({
-        commodityList
-      })
-      resolve()
-    })
-  }
-
   deleteItem = async (index) => {
-    const { commodityList } = this.state;
+    const { userStore } = this.props;
+    const { commodityList } = userStore;
     const { id } = commodityList[index]
-    const res = await Taro.request({
+    await Taro.request({
       method: 'DELETE',
       url: `https://algyun.cn:81/market/${id}/`,
       header: {
         cookie: Taro.getStorageSync('cookie')
       }
     })
-    console.log(res)
   }
 
   editItem = (index) => {
-    const { commodityList } = this.state;
     const { userStore } = this.props;
+    const { commodityList } = userStore;
     userStore.setEditItem(commodityList[index].id)
     Taro.navigateTo({
       url: '/pages/edit/index'
@@ -69,10 +48,11 @@ class Sell extends Component {
   }
 
   render() {
-    const { commodityList } = this.state;
+    const { userStore } = this.props;
+    const { commodityList, userInfo } = userStore;
     return (
       <View className='shop'>
-        {commodityList && commodityList.map((item, index) => (
+        {commodityList && commodityList.filter(item => item.seller.user === userInfo.nickname).map((item, index) => (
           <View key={index} className='container'>
             <View className='shop-item'>
               <View className='img' style={{ backgroundImage: `url(${item.commodity_img})` }} />

@@ -20,14 +20,14 @@ class Index extends Component {
     super(props)
     this.state = {
       isOpened: false,
-      commodityList: []
     }
   }
 
   onPullDownRefresh() {
+    const { userStore } = this.props;
     Taro.showNavigationBarLoading()
     Taro.showLoading({ title: '刷新中...' })
-    this.fetchCommodity().then(() => {
+    userStore.fetchCommodity().then(() => {
       Taro.hideLoading()
       Taro.hideNavigationBarLoading()
       Taro.stopPullDownRefresh()
@@ -35,28 +35,13 @@ class Index extends Component {
   }
 
   async componentWillMount() {
+    const { userStore } = this.props;
     Taro.showLoading({ title: '加载中...' })
-    this.fetchCommodity()
+    userStore.fetchCommodity()
   }
 
   componentDidShow() {
     Taro.hideLoading()
-  }
-
-  fetchCommodity() {
-    return new Promise(async (resolve, reject) => {
-      const { data } = await Taro.request({
-        url: 'https://algyun.cn:81/market/list/',
-        data: {
-          page: 1
-        }
-      })
-      const { commodityList } = data;
-      this.setState({
-        commodityList
-      })
-      resolve()
-    })
   }
 
   handleChange = (current) => {
@@ -79,7 +64,7 @@ class Index extends Component {
   }
 
   render() {
-    const { isOpened, commodityList } = this.state;
+    const { isOpened, } = this.state;
     const { userStore } = this.props;
     const { current } = userStore;
     return (
@@ -103,10 +88,10 @@ class Index extends Component {
         </AtModal>
         <View style={{ marginBottom: '10vh' }}>
           <View hidden={current !== 0}>
-            <Home commodityList={commodityList} />
+            <Home />
           </View>
           <View hidden={current !== 1}>
-            {/* <Login /> */}
+
           </View>
           <View hidden={current !== 3}>
             <Message />
