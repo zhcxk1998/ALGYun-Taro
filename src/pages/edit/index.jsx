@@ -43,16 +43,6 @@ class Edit extends Component {
     return new Promise(async (resolve, reject) => {
       const { userStore } = this.props;
       const { editItemId } = userStore;
-      const { header } = await Taro.request({
-        url: 'https://algyun.cn:81/users/',
-        method: 'POST',
-        data: {
-          email: '1@1.com',
-          password: '123',
-          device: 'weapp'
-        }
-      })
-      Taro.setStorageSync('cookie', header['Set-Cookie'])
       const { data: { commodity } } = await Taro.request({
         method: 'GET',
         url: `https://algyun.cn:81/market/${editItemId}/`,
@@ -92,6 +82,7 @@ class Edit extends Component {
 
   handleClick = () => {
     const { files, source_files } = this.state;
+    const { userStore } = this.props;
     const deleteItems = [];
     const addItems = [];
 
@@ -113,13 +104,33 @@ class Edit extends Component {
       }
     })
 
-    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems)]).then(() => {
+    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems), this.changeDetail(), userStore.fetchCommodity()]).then(() => {
       Taro.navigateBack({ delta: 1 })
+      Taro.hideLoading()
       Taro.showToast({
         title: '保存完毕~',
         icon: 'success',
         duration: 2000,
       })
+    })
+  }
+
+  changeDetail() {
+    const { value } = this.state;
+    const { userStore } = this.props;
+    const { editItemId } = userStore;
+    return new Promise(async (resolve, reject) => {
+      await Taro.request({
+        method: 'PUT',
+        url: `https://algyun.cn:81/market/${editItemId}/`,
+        data: {
+          detail: value
+        },
+        header: {
+          cookie: Taro.getStorageSync('cookie')
+        }
+      })
+      resolve()
     })
   }
 
@@ -206,11 +217,11 @@ class Edit extends Component {
             title='价钱'
             extraText={`¥ ${price} `}
             arrow='right'
-            thumb='https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556896839357.png?width=512&height=512'
+            thumb='https://cdn.algbb.fun/algyun/icon/price.png'
           />
           <AtListItem
             title='分类'
-            thumb='https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1556896844049.png?width=512&height=512'
+            thumb='https://cdn.algbb.fun/algyun/icon/tag.png'
             hasBorder={false}
           />
           <AtTag className='tag' active circle>{tag}</AtTag>
