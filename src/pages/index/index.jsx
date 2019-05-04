@@ -93,10 +93,6 @@ class Index extends Component {
                   value: '上架商品'
                 },
                 {
-                  image: require('../../assets/img/icon/article.png'),
-                  value: '编写文章'
-                },
-                {
                   image: require('../../assets/img/icon/help.png'),
                   value: '发布求助'
                 }
