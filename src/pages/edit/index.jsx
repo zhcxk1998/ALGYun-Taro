@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Button } from '@tarojs/components';
 import { observer, inject } from '@tarojs/mobx'
-import { AtTextarea, AtImagePicker, AtList, AtListItem, AtTag } from 'taro-ui'
+import { AtTextarea, AtImagePicker, AtList, AtListItem, AtTag, AtModal, AtModalContent, AtInput } from 'taro-ui'
 
 import './style.css';
 
@@ -16,11 +16,12 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: '',
+      detail: '',
       files: [],
       source_files: [],
       price: 0,
       tag: '',
+      isOpened: false
     }
   }
 
@@ -29,7 +30,7 @@ class Edit extends Component {
     const commodity = await this.fetchItemInfo();
     const { detail, commodity_img, price, classification: { name } } = commodity;
     this.setState({
-      value: detail,
+      detail,
       files: commodity_img,
       source_files: commodity_img,
       price,
@@ -54,9 +55,15 @@ class Edit extends Component {
     })
   }
 
-  handleChange(event) {
+  detailChange(event) {
     this.setState({
-      value: event.target.value
+      detail: event.target.value
+    })
+  }
+
+  priceChange(price) {
+    this.setState({
+      price
     })
   }
 
@@ -104,7 +111,7 @@ class Edit extends Component {
       }
     })
 
-    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems), this.changeDetail(), userStore.fetchCommodity()]).then(() => {
+    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems), this.changeInfo(), userStore.fetchCommodity()]).then(() => {
       Taro.navigateBack({ delta: 1 })
       Taro.hideLoading()
       Taro.showToast({
@@ -115,8 +122,8 @@ class Edit extends Component {
     })
   }
 
-  changeDetail() {
-    const { value } = this.state;
+  changeInfo() {
+    const { detail, price } = this.state;
     const { userStore } = this.props;
     const { editItemId } = userStore;
     return new Promise(async (resolve, reject) => {
@@ -124,12 +131,14 @@ class Edit extends Component {
         method: 'PUT',
         url: `https://algyun.cn:81/market/${editItemId}/`,
         data: {
-          detail: value
+          detail,
+          price
         },
         header: {
           cookie: Taro.getStorageSync('cookie')
         }
       })
+      console.log(price)
       resolve()
     })
   }
@@ -193,21 +202,32 @@ class Edit extends Component {
     })
   }
 
+  openChange() {
+    this.setState({
+      isOpened: true
+    })
+  }
+
   render() {
-    const { price, tag } = this.state;
+    const { price, tag, detail, files, isOpened } = this.state;
     return (
       <View className='edit'>
+        <AtModal isOpened={isOpened}>
+          <AtModalContent>
+            <AtInput title='价钱' value={price} onChange={this.priceChange.bind(this)} />
+          </AtModalContent>
+        </AtModal>
         <AtTextarea
-          value={this.state.value}
-          onChange={this.handleChange.bind(this)}
+          value={detail}
+          onChange={this.detailChange.bind(this)}
           maxLength={200}
           height={250}
           placeholder='请输入商品的描述...'
         />
         <AtImagePicker
           length={3}
-          showAddBtn={this.state.files.length < 5}
-          files={this.state.files}
+          showAddBtn={files.length < 5}
+          files={files}
           onChange={this.onChange.bind(this)}
           onFail={this.onFail.bind(this)}
           onImageClick={this.onImageClick.bind(this)}
@@ -218,6 +238,7 @@ class Edit extends Component {
             extraText={`¥ ${price} `}
             arrow='right'
             thumb='https://cdn.algbb.fun/algyun/icon/price.png'
+            onClick={this.openChange}
           />
           <AtListItem
             title='分类'
