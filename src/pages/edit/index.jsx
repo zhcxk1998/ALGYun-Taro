@@ -111,7 +111,7 @@ class Edit extends Component {
       }
     })
 
-    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems), this.changeInfo(), userStore.fetchCommodity()]).then(() => {
+    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems), this.changeInfo()]).then(() => {
       Taro.navigateBack({ delta: 1 })
       Taro.hideLoading()
       Taro.showToast({
@@ -138,7 +138,7 @@ class Edit extends Component {
           cookie: Taro.getStorageSync('cookie')
         }
       })
-      console.log(price)
+      await userStore.fetchCommodity()
       resolve()
     })
   }
@@ -202,9 +202,15 @@ class Edit extends Component {
     })
   }
 
-  openChange() {
+  handleOpen() {
     this.setState({
       isOpened: true
+    })
+  }
+
+  handleClose() {
+    this.setState({
+      isOpened: false
     })
   }
 
@@ -212,7 +218,7 @@ class Edit extends Component {
     const { price, tag, detail, files, isOpened } = this.state;
     return (
       <View className='edit'>
-        <AtModal isOpened={isOpened}>
+        <AtModal isOpened={isOpened} onClose={this.handleClose}>
           <AtModalContent>
             <AtInput title='价钱' value={price} onChange={this.priceChange.bind(this)} />
           </AtModalContent>
@@ -238,7 +244,7 @@ class Edit extends Component {
             extraText={`¥ ${price} `}
             arrow='right'
             thumb='https://cdn.algbb.fun/algyun/icon/price.png'
-            onClick={this.openChange}
+            onClick={this.handleOpen}
           />
           <AtListItem
             title='分类'
