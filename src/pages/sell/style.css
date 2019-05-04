@@ -1,7 +1,4 @@
 .shop {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; */
   min-height: 100vh;
   background: #f1f1f1;
 }
@@ -58,7 +55,6 @@
 .shop-item .view {
   color: #c7c7c7;
   font-size: 0.8em;
-  /* font-weight: bold; */
 }
 
 .setting{
@@ -67,7 +63,6 @@
   align-items: center;
   height: 8vw;
   padding: 2vw;
-  /* background: red; */
 }
 
 .setting-item{

@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text, Image, Button } from '@tarojs/components';
-import { AtGrid, AtList, AtListItem } from "taro-ui";
+import { AtGrid, AtList, AtListItem, AtButton } from "taro-ui";
 import { observer, inject } from '@tarojs/mobx';
 
 import './style.css'
@@ -38,10 +38,33 @@ class Sell extends Component {
         }
       })
       const { commodityList } = data;
+      console.log(commodityList)
       this.setState({
-        commodityList: commodityList.filter((item) => item.seller.user === nickname)
+        commodityList
       })
       resolve()
+    })
+  }
+
+  deleteItem = async (index) => {
+    const { commodityList } = this.state;
+    const { id } = commodityList[index]
+    const res = await Taro.request({
+      method: 'DELETE',
+      url: `https://algyun.cn:81/market/${id}/`,
+      header: {
+        cookie: Taro.getStorageSync('cookie')
+      }
+    })
+    console.log(res)
+  }
+
+  editItem = (index) => {
+    const { commodityList } = this.state;
+    const { userStore } = this.props;
+    userStore.setEditItem(commodityList[index].id)
+    Taro.navigateTo({
+      url: '/pages/edit/index'
     })
   }
 
@@ -50,14 +73,24 @@ class Sell extends Component {
     return (
       <View className='shop'>
         {commodityList && commodityList.map((item, index) => (
-          <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`}>
-            <View className='img' style={{ backgroundImage: `url(${item.commodity_img})` }} />
-            <View className='description'>
-              {item.name}
+          <View key={index} className='container'>
+            <View className='shop-item'>
+              <View className='img' style={{ backgroundImage: `url(${item.commodity_img})` }} />
+              <View className='wrap'>
+                <View className='description'>
+                  {item.detail}
+                </View>
+                <View className='price'>
+                  ¥{item.price}
+                </View>
+                <View className='view'>
+                  {item.views} 人看过
+              </View>
+              </View>
             </View>
-            <View className='price'>
-              <Text>¥{item.price}</Text>
-              <Text>{item.seller.user}</Text>
+            <View className='setting'>
+              <View className='setting-item' onClick={() => { this.editItem(index) }}>编辑</View>
+              <View className='setting-item' onClick={() => { this.deleteItem(index) }}>下架</View>
             </View>
           </View>
         ))}
