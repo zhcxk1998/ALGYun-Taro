@@ -70,9 +70,8 @@ class Home extends Component {
           {commodityList && commodityList.map((item, index) => (
             <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`}>
               <View className='img' style={{ backgroundImage: `url(${item.commodity_img})` }} />
-              {/* <View className='img' /> */}
               <View className='description'>
-                {item.name}
+                {item.detail}
               </View>
               <View className='price'>
                 <Text>¥{item.price}</Text>

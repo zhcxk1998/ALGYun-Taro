@@ -25,28 +25,29 @@ class App extends Component {
     pages: [
       'pages/index/index',
       'pages/entry/index',
-      'pages/sell/index'
+      'pages/sell/index',
+      'pages/edit/index',
     ],
     window: {
       backgroundTextStyle: 'dark',
       navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
+      navigationBarTitleText: 'ALGYun智能校园',
       navigationBarTextStyle: 'black',
-      enablePullDownRefresh:true,
+      enablePullDownRefresh: true,
     }
   }
 
-  componentDidMount () {}
+  componentDidMount() { }
 
-  componentDidShow () {}
+  componentDidShow() { }
 
-  componentDidHide () {}
+  componentDidHide() { }
 
-  componentDidCatchError () {}
+  componentDidCatchError() { }
 
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
-  render () {
+  render() {
     return (
       <Provider store={store}>
         <Index />

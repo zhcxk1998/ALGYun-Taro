@@ -1,0 +1,31 @@
+.at-list__item .item-extra__info {
+  margin-right: 20px !important;
+  color: #666 !important;
+  font-weight: bold !important;
+}
+
+.at-textarea {
+  border: none !important;
+}
+
+.at-tag--active {
+  color: #666 !important;
+  border-color: #666 !important;
+}
+
+.edit {
+  width: 96vw;
+  padding: 0 2vw;
+}
+
+.tag {
+  position: absolute;
+  right: 20px;
+  transform: translateY(-80px);
+}
+
+.confirm{
+  margin-top: 40px;
+  color: #fff;
+  background: #fa4b2a;
+}
