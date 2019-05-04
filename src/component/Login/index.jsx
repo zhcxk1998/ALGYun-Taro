@@ -22,23 +22,6 @@ class Login extends Component {
   }
 
   async handleSubmit(e) {
-    // const login = await Taro.request({
-    //   url: 'https://algyun.cn:81/users/',
-    //   method: 'POST',
-    //   data: {
-    //     email:'1@1.com',
-    //     password:'123',
-    //     device: 'weapp'
-    //   }
-    // })
-    // const cookie = login.header['Set-Cookie']
-    // const res = await Taro.request({
-    //   url:'https://algyun.cn:81/users/dashboard/me/',
-    //   method:'GET',
-    //   header:{
-    //     cookie
-    //   }
-    // })
     const { userStore } = this.props;
     const { email, password } = e.target.value;
     if (!email || !password) {
