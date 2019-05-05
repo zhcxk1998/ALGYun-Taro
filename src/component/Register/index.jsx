@@ -82,7 +82,7 @@ class Login extends Component {
     return (
       <View className='form-container'>
         <AtMessage />
-        <Image src={require('../../assets/img/register.svg')} />
+        <Image src='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/register.svg' />
         <Form className='form-wrap' onSubmit={this.handleSubmit}>
           <Input name='email' className='form-input' type='text' placeholder='邮箱' />
           <Input name='password' className='form-input' type='password' placeholder='密码' />
