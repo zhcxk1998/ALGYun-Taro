@@ -1,7 +1,7 @@
 import Taro, { Component } from '@tarojs/taro';
 import { View, Text, Image, Button } from '@tarojs/components';
 import { AtGrid, AtList, AtListItem } from "taro-ui";
-import { inject ,observer } from '@tarojs/mobx';
+import { inject, observer } from '@tarojs/mobx';
 
 import './style.css';
 
@@ -30,6 +30,7 @@ class DashBoard extends Component {
 
   back = () => {
     const { userStore } = this.props;
+    Taro.showLoading({ title: '退出中...' })
     Taro.request({
       url: 'https://algyun.cn:81/users/',
       method: 'DELETE',
@@ -39,12 +40,11 @@ class DashBoard extends Component {
     }).then(() => {
       Taro.removeStorageSync('cookie')
     })
-    userStore.handleLogin(false)
-    Taro.reLaunch({
-      url: '/pages/index/index'
-    }).then(() => {
-      userStore.handleChange(4)
-    })
+    setTimeout(() => {
+      userStore.handleLogin(false)
+      Taro.navigateBack({ delta: 1 })
+      Taro.hideLoading()
+    }, 1000)
   }
 
   gridClick = (item, index) => {
