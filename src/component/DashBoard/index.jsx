@@ -81,15 +81,15 @@ class DashBoard extends Component {
             <AtGrid onClick={this.gridClick} mode='rect' hasBorder data={
               [
                 {
-                  image: require('../../assets/img/icon/good.png'),
+                  image: 'https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/good.png',
                   value: '我的出售'
                 },
                 {
-                  image: require('../../assets/img/icon/manage.png'),
+                  image: 'https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/manage.png',
                   value: '我的文章'
                 },
                 {
-                  image: require('../../assets/img/icon/setting.png'),
+                  image: 'https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/setting.png',
                   value: '兼职情况'
                 }
               ]
@@ -100,24 +100,24 @@ class DashBoard extends Component {
             <AtList>
               <AtListItem
                 title='我的钱包'
-                thumb={require('../../assets/img/icon/wallet.png')}
+                thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/wallet.png'
               />
               <AtListItem
                 title='购买记录'
-                thumb={require('../../assets/img/icon/record.png')}
+                thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/record.png'
               />
               <AtListItem
                 title='个人设置'
-                thumb={require('../../assets/img/icon/user.png')}
+                thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/user.png'
               />
               <AtListItem
                 title='朋友赠礼'
                 extraText='点了也没用'
-                thumb={require('../../assets/img/icon/prize.png')}
+                thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/prize.png'
               />
               <AtListItem
                 title='关于我们'
-                thumb={require('../../assets/img/icon/about.png')}
+                thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/about.png'
               />
             </AtList>
           </View>
