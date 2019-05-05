@@ -5,6 +5,7 @@ const userStore = observable({
   isLogin: false,
   userInfo: {},
   commodityList: [],
+  myCommodityList: [],
   current: 0,
   handleChange(current) {
     this.current = current
@@ -17,16 +18,29 @@ const userStore = observable({
   },
   fetchCommodity() {
     return new Promise(async (resolve, reject) => {
-      const { data } = await Taro.request({
+      const { data: { commodityList } } = await Taro.request({
         url: 'https://algyun.cn:81/market/list/',
         data: {
           page: 1
         }
       })
-      const { commodityList } = data;
       this.commodityList = commodityList
       resolve()
     })
   },
+  fetchMyCommodity() {
+    return new Promise(async (resolve, reject) => {
+      const { data: { commodity } } = await Taro.request({
+        method: 'GET',
+        url: 'https://algyun.cn:81/users/dashboard/',
+        header: {
+          cookie: Taro.getStorageSync('cookie')
+        }
+      })
+      this.myCommodityList = commodity
+      resolve()
+    })
+  }
 })
+
 export default userStore

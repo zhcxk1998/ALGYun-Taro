@@ -20,15 +20,16 @@ class Sell extends Component {
   async componentWillMount() {
     const { userStore } = this.props;
     Taro.showLoading({ title: '加载中...' })
-    userStore.fetchCommodity().then(() => {
+
+    userStore.fetchMyCommodity().then(() => {
       Taro.hideLoading()
     })
   }
 
   deleteItem = async (index) => {
     const { userStore } = this.props;
-    const { commodityList } = userStore;
-    const { id } = commodityList[index]
+    const { myCommodityList } = userStore;
+    const { id } = myCommodityList[index]
     await Taro.request({
       method: 'DELETE',
       url: `https://algyun.cn:81/market/${id}/`,
@@ -40,8 +41,8 @@ class Sell extends Component {
 
   editItem = (index) => {
     const { userStore } = this.props;
-    const { commodityList, userInfo } = userStore;
-    const id = commodityList.filter(item => item.seller.user === userInfo.nickname)[index].id;
+    const { myCommodityList } = userStore;
+    const id = myCommodityList[index].id;
     Taro.navigateTo({
       url: `/pages/edit/index?id=${id}`
     })
@@ -49,13 +50,13 @@ class Sell extends Component {
 
   render() {
     const { userStore } = this.props;
-    const { commodityList, userInfo } = userStore;
+    const { myCommodityList } = userStore;
     return (
       <View className='shop'>
-        {commodityList && commodityList.filter(item => item.seller.user === userInfo.nickname).map((item, index) => (
+        {myCommodityList && myCommodityList.map((item, index) => (
           <View key={index} className='container'>
             <View className='shop-item'>
-              <View className='img' style={{ backgroundImage: `url(${item.commodity_img})` }} />
+              <View className='img' style={{ backgroundImage: `url(${item.commodity_img || 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1557065543477.jpeg?width=240&height=240'})` }} />
               <View className='wrap'>
                 <View className='description'>
                   {item.detail}
@@ -70,7 +71,7 @@ class Sell extends Component {
             </View>
             <View className='setting'>
               <View className='setting-item' onClick={() => { this.editItem(index) }}>编辑</View>
-              <View className='setting-item' onClick={() => { this.deleteItem(index) }}>下架</View>
+              <View className='setting-item' onClick={() => { this.deleteItem(index) }}>删除</View>
             </View>
           </View>
         ))}

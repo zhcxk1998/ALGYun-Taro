@@ -21,6 +21,7 @@ class Edit extends Component {
       source_files: [],
       price: 0,
       tag: '',
+      status: false,
       isOpened: false
     }
   }
@@ -32,12 +33,13 @@ class Edit extends Component {
     Taro.showLoading({ title: '加载中...' })
 
     const commodity = await this.fetchItemInfo();
-    const { detail, commodity_img, price, classification: { name } } = commodity;
+    const { detail, commodity_img, price, status, classification: { name } } = commodity;
     this.setState({
       detail,
       files: commodity_img,
       source_files: commodity_img,
       price,
+      status: status === 'p' ? true : false,
       tag: name
     }, () => {
       Taro.hideLoading()
@@ -69,6 +71,12 @@ class Edit extends Component {
     this.setState({
       price
     })
+  }
+
+  statusChange() {
+    this.setState(preState => ({
+      status: !preState.status
+    }))
   }
 
   onChange(files, type, index) {
@@ -126,16 +134,18 @@ class Edit extends Component {
   }
 
   changeInfo() {
-    const { detail, price } = this.state;
+    const { detail, price, status } = this.state;
     const { userStore } = this.props;
-    const { editItemId } = userStore;
+    const { params } = this.$router;
+    const { id } = params;
     return new Promise(async (resolve, reject) => {
       await Taro.request({
         method: 'PUT',
-        url: `https://algyun.cn:81/market/${editItemId}/`,
+        url: `https://algyun.cn:81/market/${id}/`,
         data: {
           detail,
-          price
+          price,
+          status: status ? 'p' : 's'
         },
         header: {
           cookie: Taro.getStorageSync('cookie')
@@ -218,7 +228,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { price, tag, detail, files, isOpened } = this.state;
+    const { price, tag, detail, files, isOpened, status } = this.state;
     return (
       <View className='edit'>
         <AtModal isOpened={isOpened} onClose={this.handleClose}>
@@ -252,9 +262,15 @@ class Edit extends Component {
           <AtListItem
             title='分类'
             thumb='https://cdn.algbb.fun/algyun/icon/tag.png'
-            hasBorder={false}
           />
           <AtTag className='tag' active circle>{tag}</AtTag>
+          <AtListItem
+            isSwitch
+            switchIsCheck={status}
+            title='发布'
+            thumb='https://cdn.algbb.fun/algyun/icon/status.png'
+            onSwitchChange={this.statusChange}
+          />
         </AtList>
         <Button className='confirm' onClick={this.handleClick}>保 存</Button>
       </View>
