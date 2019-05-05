@@ -26,7 +26,11 @@ class Edit extends Component {
   }
 
   async componentWillMount() {
+    const { params } = this.$router;
+    const { id } = params;
+    if (!id) return;
     Taro.showLoading({ title: '加载中...' })
+
     const commodity = await this.fetchItemInfo();
     const { detail, commodity_img, price, classification: { name } } = commodity;
     this.setState({
@@ -42,11 +46,11 @@ class Edit extends Component {
 
   fetchItemInfo() {
     return new Promise(async (resolve, reject) => {
-      const { userStore } = this.props;
-      const { editItemId } = userStore;
+      const { params } = this.$router;
+      const { id } = params;
       const { data: { commodity } } = await Taro.request({
         method: 'GET',
-        url: `https://algyun.cn:81/market/${editItemId}/`,
+        url: `https://algyun.cn:81/market/${id}/`,
         header: {
           'Cookie': Taro.getStorageSync('cookie')
         }
@@ -92,9 +96,7 @@ class Edit extends Component {
     const { userStore } = this.props;
     const deleteItems = [];
     const addItems = [];
-
     Taro.showLoading({ title: '保存中...' })
-
     source_files.forEach(sourceItem => {
       if (!files.some(item => {
         return item.url === sourceItem.url

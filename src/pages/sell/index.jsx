@@ -41,9 +41,8 @@ class Sell extends Component {
   editItem = (index) => {
     const { userStore } = this.props;
     const { commodityList } = userStore;
-    userStore.setEditItem(commodityList[index].id)
     Taro.navigateTo({
-      url: '/pages/edit/index'
+      url: `/pages/edit/index?id=${commodityList[index].id}`
     })
   }
 

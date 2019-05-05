@@ -5,7 +5,6 @@ const userStore = observable({
   isLogin: false,
   userInfo: {},
   commodityList: [],
-  editItemId: 0,
   current: 0,
   handleChange(current) {
     this.current = current
@@ -15,9 +14,6 @@ const userStore = observable({
   },
   setUserInfo(userInfo) {
     this.userInfo = userInfo
-  },
-  setEditItem(id) {
-    this.editItemId = id
   },
   fetchCommodity() {
     return new Promise(async (resolve, reject) => {

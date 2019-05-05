@@ -63,6 +63,14 @@ class Index extends Component {
     })
   }
 
+  gridClick = (item, index) => {
+    if (index === 0) {
+      Taro.navigateTo({
+        url: '/pages/edit/index'
+      })
+    }
+  }
+
   render() {
     const { isOpened, } = this.state;
     const { userStore } = this.props;
