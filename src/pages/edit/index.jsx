@@ -111,7 +111,8 @@ class Edit extends Component {
       }
     })
 
-    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems), this.changeInfo()]).then(() => {
+    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems)]).then(async () => {
+      await this.changeInfo()
       Taro.navigateBack({ delta: 1 })
       Taro.hideLoading()
       Taro.showToast({
