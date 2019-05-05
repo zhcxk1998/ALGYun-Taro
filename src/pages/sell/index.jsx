@@ -40,9 +40,10 @@ class Sell extends Component {
 
   editItem = (index) => {
     const { userStore } = this.props;
-    const { commodityList } = userStore;
+    const { commodityList, userInfo } = userStore;
+    const id = commodityList.filter(item => item.seller.user === userInfo.nickname)[index].id;
     Taro.navigateTo({
-      url: `/pages/edit/index?id=${commodityList[index].id}`
+      url: `/pages/edit/index?id=${id}`
     })
   }
 
