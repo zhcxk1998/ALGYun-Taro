@@ -30,6 +30,7 @@ class Sell extends Component {
     const { userStore } = this.props;
     const { myCommodityList } = userStore;
     const { id } = myCommodityList[index]
+    Taro.showLoading({ title: '删除中...' })
     await Taro.request({
       method: 'DELETE',
       url: `https://algyun.cn:81/market/${id}/`,
@@ -37,6 +38,9 @@ class Sell extends Component {
         cookie: Taro.getStorageSync('cookie')
       }
     })
+    await userStore.fetchCommodity();
+    await userStore.fetchMyCommodity();
+    Taro.hideLoading()
   }
 
   editItem = (index) => {
