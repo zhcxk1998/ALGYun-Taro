@@ -33,7 +33,6 @@ class App extends Component {
       navigationBarBackgroundColor: '#fff',
       navigationBarTitleText: 'ALGYun智能校园',
       navigationBarTextStyle: 'black',
-      enablePullDownRefresh: true,
     }
   }
 

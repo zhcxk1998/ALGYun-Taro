@@ -15,6 +15,8 @@ import privateLink from '../../utils/privateLink';
 class Index extends Component {
   config = {
     navigationBarTitleText: '首页',
+    enablePullDownRefresh: true,
+    
   }
 
   constructor(props) {
