@@ -4,7 +4,7 @@
   justify-content: space-between; */
 }
 
-.login-button{
+.login-button {
   width: 40vw;
 }
 
@@ -20,7 +20,7 @@
   background-size: 100%;
 }
 
-.avater{
+.avater {
   width: 200px;
   height: 200px;
 }
@@ -37,7 +37,8 @@
   color: #333;
   font-size: 4vw;
   text-overflow: ellipsis;
-  white-space: nowrap
+  white-space: nowrap;
+  text-align: center;
 }
 
 .quit {
