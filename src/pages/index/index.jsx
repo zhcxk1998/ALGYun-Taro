@@ -16,7 +16,7 @@ class Index extends Component {
   config = {
     navigationBarTitleText: '首页',
     enablePullDownRefresh: true,
-    
+
   }
 
   constructor(props) {
@@ -70,6 +70,9 @@ class Index extends Component {
     const { userStore } = this.props;
     const { isLogin } = userStore;
     if (index === 0) {
+      this.setState({
+        isOpened: false
+      })
       privateLink(isLogin, '/pages/edit/index')
     }
   }
