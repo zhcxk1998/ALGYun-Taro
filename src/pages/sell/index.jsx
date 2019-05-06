@@ -74,6 +74,7 @@ class Sell extends Component {
               </View>
             </View>
             <View className='setting'>
+              <View className='setting-status'>{item.status === 'p' ? '[ 发布 ]' : '[ 草稿 ]'}</View>
               <View className='setting-item' onClick={() => { this.editItem(index) }}>编辑</View>
               <View className='setting-item' onClick={() => { this.deleteItem(index) }}>删除</View>
             </View>
