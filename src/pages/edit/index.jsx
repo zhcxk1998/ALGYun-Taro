@@ -170,8 +170,8 @@ class Edit extends Component {
   }
 
   addItem(addItems) {
-    const { userStore } = this.props;
-    const { editItemId } = userStore;
+    const { params } = this.$router;
+    const { id } = params;
     return new Promise(async (resolve, reject) => {
       if (addItems.length === 0) {
         resolve()
@@ -180,7 +180,7 @@ class Edit extends Component {
       addItems.forEach(url => {
         uploadQueue.push(new Promise((finish, err) => {
           Taro.uploadFile({
-            url: `https://algyun.cn:81/market/${editItemId}/image/`,
+            url: `https://algyun.cn:81/market/${id}/image/`,
             filePath: url,
             header: {
               "cookie": Taro.getStorageSync('cookie'),
@@ -201,18 +201,18 @@ class Edit extends Component {
   }
 
   deleteItem(deleteItems) {
-    const { userStore } = this.props;
-    const { editItemId } = userStore;
+    const { params } = this.$router;
+    const { id } = params;
     return new Promise((resolve, reject) => {
       if (deleteItems.length === 0) {
         resolve()
       }
       const deleteQueue = [];
-      deleteItems.forEach(id => {
+      deleteItems.forEach(deleteId => {
         deleteQueue.push(new Promise((finish, err) => {
           Taro.request({
             method: 'DELETE',
-            url: `https://algyun.cn:81/market/${editItemId}/image/${id}/`,
+            url: `https://algyun.cn:81/market/${id}/image/${deleteId}/`,
             header: {
               Cookie: Taro.getStorageSync('cookie')
             },
