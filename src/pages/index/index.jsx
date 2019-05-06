@@ -88,11 +88,11 @@ class Index extends Component {
             <AtGrid onClick={this.gridClick} hasBorder columnNum={2} data={
               [
                 {
-                  image: require('../../assets/img/icon/item.png'),
+                  image: 'https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/item.png',
                   value: '上架商品'
                 },
                 {
-                  image: require('../../assets/img/icon/help.png'),
+                  image: 'https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/help.png',
                   value: '发布求助'
                 }
               ]
