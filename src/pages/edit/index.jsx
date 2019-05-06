@@ -20,17 +20,30 @@ class Edit extends Component {
       files: [],
       source_files: [],
       price: 0,
-      tag: '',
+      classification: '选择分类',
       status: false,
-      isOpened: false
+      priceOpened: false,
+      classificationOpened: false,
+      classificationList: []
     }
   }
 
   async componentWillMount() {
     const { params } = this.$router;
     const { id } = params;
+    const { data: { classificationList } } = await Taro.request({
+      method: 'GET',
+      url: 'https://algyun.cn:81/market/classification/list/',
+      header: {
+        cookie: Taro.getStorageSync('cookie')
+      }
+    })
+    this.setState({
+      classificationList
+    })
     if (!id) return;
     Taro.showLoading({ title: '加载中...' })
+
 
     const commodity = await this.fetchItemInfo();
     const { detail, commodity_img, price, status, classification: { name } } = commodity;
@@ -40,7 +53,7 @@ class Edit extends Component {
       source_files: commodity_img,
       price,
       status: status === 'p' ? true : false,
-      tag: name
+      classification: name
     }, () => {
       Taro.hideLoading()
     })
@@ -101,7 +114,6 @@ class Edit extends Component {
 
   handleClick = () => {
     const { files, source_files } = this.state;
-    const { userStore } = this.props;
     const deleteItems = [];
     const addItems = [];
     Taro.showLoading({ title: '保存中...' })
@@ -134,7 +146,7 @@ class Edit extends Component {
   }
 
   changeInfo() {
-    const { detail, price, status } = this.state;
+    const { detail, price, status, classification } = this.state;
     const { userStore } = this.props;
     const { params } = this.$router;
     const { id } = params;
@@ -145,7 +157,8 @@ class Edit extends Component {
         data: {
           detail,
           price,
-          status: status ? 'p' : 's'
+          status: status ? 'p' : 's',
+          classification
         },
         header: {
           cookie: Taro.getStorageSync('cookie')
@@ -215,23 +228,48 @@ class Edit extends Component {
     })
   }
 
-  handleOpen() {
+  priceOpen() {
     this.setState({
-      isOpened: true
+      priceOpened: true
     })
   }
 
-  handleClose() {
+  priceClose() {
     this.setState({
-      isOpened: false
+      priceOpened: false
+    })
+  }
+
+  classificationOpen() {
+    this.setState({
+      classificationOpened: true
+    })
+  }
+
+  classificationClose() {
+    this.setState({
+      classificationOpened: false
+    })
+  }
+
+  classificationClick = (index) => {
+    const { classificationList } = this.state;
+    this.setState({
+      classification: classificationList[index].name,
+      classificationOpened: false
     })
   }
 
   render() {
-    const { price, tag, detail, files, isOpened, status } = this.state;
+    const { price, classification, detail, files, priceOpened, status, classificationList, classificationOpened } = this.state;
     return (
       <View className='edit'>
-        <AtModal isOpened={isOpened} onClose={this.handleClose}>
+        <AtModal isOpened={classificationOpened} onClose={this.classificationClose}>
+          <AtModalContent>
+            {classificationList.map((item, index) => <AtTag className='classification' onClick={() => { this.classificationClick(index) }} key={index} active circle>{item.name}</AtTag>)}
+          </AtModalContent>
+        </AtModal>
+        <AtModal isOpened={priceOpened} onClose={this.priceClose}>
           <AtModalContent>
             <AtInput title='价钱' value={price} onChange={this.priceChange.bind(this)} />
           </AtModalContent>
@@ -257,13 +295,13 @@ class Edit extends Component {
             extraText={`¥ ${price} `}
             arrow='right'
             thumb='https://cdn.algbb.fun/algyun/icon/price.png'
-            onClick={this.handleOpen}
+            onClick={this.priceOpen}
           />
           <AtListItem
             title='分类'
             thumb='https://cdn.algbb.fun/algyun/icon/tag.png'
           />
-          <AtTag className='tag' active circle>{tag}</AtTag>
+          <AtTag className='tag' active circle onClick={this.classificationOpen}>{classification}</AtTag>
           <AtListItem
             isSwitch
             switchIsCheck={status}

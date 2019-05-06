@@ -18,13 +18,17 @@
   padding: 0 2vw;
 }
 
+.classification {
+  margin: 10px 5px;
+}
+
 .tag {
   position: absolute;
   right: 20px;
   transform: translateY(-80px);
 }
 
-.confirm{
+.confirm {
   margin-top: 40px;
   color: #fff;
   background: #fa4b2a;
