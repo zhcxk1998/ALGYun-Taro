@@ -165,6 +165,7 @@ class Edit extends Component {
         }
       })
       await userStore.fetchCommodity()
+      await userStore.fetchMyCommodity()
       resolve()
     })
   }
