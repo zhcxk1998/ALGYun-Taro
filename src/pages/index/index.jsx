@@ -8,6 +8,7 @@ import Message from '../../component/Message/index';
 import DashBoard from '../../component/DashBoard/index';
 import TabBar from '../../component/TabBar/index';
 
+import privateLink from '../../utils/privateLink';
 
 @inject('userStore')
 @observer
@@ -64,10 +65,10 @@ class Index extends Component {
   }
 
   gridClick = (item, index) => {
+    const { userStore } = this.props;
+    const { isLogin } = userStore;
     if (index === 0) {
-      Taro.navigateTo({
-        url: '/pages/edit/index'
-      })
+      privateLink(isLogin, '/pages/edit/index')
     }
   }
 
