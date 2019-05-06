@@ -16,6 +16,7 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: 0,
       detail: '',
       files: [],
       source_files: [],
@@ -31,6 +32,7 @@ class Edit extends Component {
   async componentWillMount() {
     const { params } = this.$router;
     const { id } = params;
+    this.setState({ id })
     const { data: { classificationList } } = await Taro.request({
       method: 'GET',
       url: 'https://algyun.cn:81/market/classification/list/',
@@ -43,7 +45,6 @@ class Edit extends Component {
     })
     if (!id) return;
     Taro.showLoading({ title: '加载中...' })
-
 
     const commodity = await this.fetchItemInfo();
     const { detail, commodity_img, price, status, classification: { name } } = commodity;
@@ -61,8 +62,7 @@ class Edit extends Component {
 
   fetchItemInfo() {
     return new Promise(async (resolve, reject) => {
-      const { params } = this.$router;
-      const { id } = params;
+      const { id } = this.state;
       const { data: { commodity } } = await Taro.request({
         method: 'GET',
         url: `https://algyun.cn:81/market/${id}/`,
@@ -112,33 +112,72 @@ class Edit extends Component {
     console.log(index, file)
   }
 
-  handleClick = () => {
-    const { files, source_files } = this.state;
-    const deleteItems = [];
-    const addItems = [];
-    Taro.showLoading({ title: '保存中...' })
-    source_files.forEach(sourceItem => {
-      if (!files.some(item => {
-        return item.url === sourceItem.url
-      })) {
-        deleteItems.push(sourceItem['image_id'])
+  uploadImg() {
+    return new Promise((resolve, reject) => {
+      const { files, source_files } = this.state;
+      const deleteItems = [];
+      const addItems = [];
+      Taro.showLoading({ title: '保存中...' })
+      source_files.forEach(sourceItem => {
+        if (!files.some(item => {
+          return item.url === sourceItem.url
+        })) {
+          deleteItems.push(sourceItem['image_id'])
+        }
+      })
+
+      files.forEach(item => {
+        if (!source_files.some(sourceItem => {
+          return sourceItem.url === item.url
+        })) {
+          addItems.push(item['url'])
+        }
+      })
+
+      Promise.all([this.deleteItem(deleteItems), this.addItem(addItems)]).then(() => {
+        resolve()
+      })
+    })
+  }
+
+  handleClick = async () => {
+    await this.uploadImg()
+    await this.changeInfo()
+    Taro.navigateBack({ delta: 1 })
+    Taro.hideLoading()
+    Taro.showToast({
+      title: '保存完毕~',
+      icon: 'success',
+      duration: 2000,
+    })
+  }
+
+  newItem = async () => {
+    const { detail, price, status, classification } = this.state;
+    const { userStore } = this.props;
+    const { data: { commodity } } = await Taro.request({
+      method: 'POST',
+      url: 'https://algyun.cn:81/market/new/',
+      data: {
+        detail: detail || '用户很懒，没有填写商品描述哦~',
+        price,
+        classification: classification === '选择分类' ? '其他' : classification,
+        status: status ? 'p' : 's',
+      },
+      header: {
+        cookie: Taro.getStorageSync('cookie')
       }
     })
-
-    files.forEach(item => {
-      if (!source_files.some(sourceItem => {
-        return sourceItem.url === item.url
-      })) {
-        addItems.push(item['url'])
-      }
-    })
-
-    Promise.all([this.deleteItem(deleteItems), this.addItem(addItems)]).then(async () => {
-      await this.changeInfo()
+    this.setState({
+      id: commodity
+    }, async () => {
+      await this.uploadImg()
+      await userStore.fetchCommodity();
+      await userStore.fetchMyCommodity();
       Taro.navigateBack({ delta: 1 })
       Taro.hideLoading()
       Taro.showToast({
-        title: '保存完毕~',
+        title: '发布完毕~',
         icon: 'success',
         duration: 2000,
       })
@@ -148,8 +187,7 @@ class Edit extends Component {
   changeInfo() {
     const { detail, price, status, classification } = this.state;
     const { userStore } = this.props;
-    const { params } = this.$router;
-    const { id } = params;
+    const { id } = this.state;
     return new Promise(async (resolve, reject) => {
       await Taro.request({
         method: 'PUT',
@@ -171,8 +209,7 @@ class Edit extends Component {
   }
 
   addItem(addItems) {
-    const { params } = this.$router;
-    const { id } = params;
+    const { id } = this.state;
     return new Promise(async (resolve, reject) => {
       if (addItems.length === 0) {
         resolve()
@@ -202,8 +239,7 @@ class Edit extends Component {
   }
 
   deleteItem(deleteItems) {
-    const { params } = this.$router;
-    const { id } = params;
+    const { id } = this.state;
     return new Promise((resolve, reject) => {
       if (deleteItems.length === 0) {
         resolve()
@@ -262,7 +298,7 @@ class Edit extends Component {
   }
 
   render() {
-    const { price, classification, detail, files, priceOpened, status, classificationList, classificationOpened } = this.state;
+    const { price, classification, detail, files, priceOpened, status, classificationList, classificationOpened, id } = this.state;
     return (
       <View className='edit'>
         <AtModal isOpened={classificationOpened} onClose={this.classificationClose}>
@@ -311,7 +347,7 @@ class Edit extends Component {
             onSwitchChange={this.statusChange}
           />
         </AtList>
-        <Button className='confirm' onClick={this.handleClick}>保 存</Button>
+        <Button className='confirm' onClick={() => { !id ? this.newItem() : this.handleClick() }}>{!id ? '发 布' : '保 存'}</Button>
       </View>
     )
   }
