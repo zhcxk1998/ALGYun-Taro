@@ -5,6 +5,7 @@ const userStore = observable({
   isLogin: false,
   userInfo: {},
   commodityList: [],
+  articleList: [],
   myCommodityList: [],
   current: 0,
   handleChange(current) {
@@ -25,6 +26,19 @@ const userStore = observable({
         }
       })
       this.commodityList = commodityList
+      resolve()
+    })
+  },
+  fetchArticleList() {
+    return new Promise(async (resolve, reject) => {
+      const { data: { articleList } } = await Taro.request({
+        method: 'GET',
+        url: 'https://algyun.cn:81/helps/list/',
+        data: {
+          page: 1
+        }
+      })
+      this.articleList = articleList;
       resolve()
     })
   },

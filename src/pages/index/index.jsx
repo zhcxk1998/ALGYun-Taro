@@ -4,6 +4,7 @@ import { observer, inject } from '@tarojs/mobx';
 import { AtModal, AtModalContent, AtGrid } from "taro-ui";
 
 import Home from '../../component/Home/index';
+import Article from '../../component/Article/index';
 import Message from '../../component/Message/index';
 import DashBoard from '../../component/DashBoard/index';
 import TabBar from '../../component/TabBar/index';
@@ -40,7 +41,8 @@ class Index extends Component {
   async componentWillMount() {
     const { userStore } = this.props;
     Taro.showLoading({ title: '加载中...' })
-    userStore.fetchCommodity()
+    await userStore.fetchCommodity()
+    await userStore.fetchArticleList()
   }
 
   componentDidShow() {
@@ -105,7 +107,7 @@ class Index extends Component {
             <Home />
           </View>
           <View hidden={current !== 1}>
-
+            <Article />
           </View>
           <View hidden={current !== 3}>
             <Message />
