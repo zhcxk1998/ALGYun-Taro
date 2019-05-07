@@ -6,7 +6,7 @@
 }
 
 .article-item {
-  height: 200px;
+  height: 220px;
   margin: 15px 0;
   padding: 40px;
   border-radius: 16px;
@@ -25,6 +25,7 @@
 .article-content {
   display: -webkit-box;
   overflow: hidden;
+  height: 2.8em;
   margin-top: 10px;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
