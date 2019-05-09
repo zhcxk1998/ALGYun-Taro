@@ -5,6 +5,7 @@ import { observer, inject } from '@tarojs/mobx';
 
 import './style.css';
 
+import privateLink from '../../utils/privateLink';
 @inject('userStore')
 @observer
 class Home extends Component {
@@ -28,10 +29,8 @@ class Home extends Component {
 
   commodityClick = (index) => {
     const { userStore } = this.props;
-    const { commodityList } = userStore;
-    Taro.navigateTo({
-      url: `/pages/commoditydetail/index?id=${commodityList[index].id}`
-    })
+    const { commodityList, isLogin } = userStore;
+    privateLink(isLogin, `/pages/commoditydetail/index?id=${commodityList[index].id}`)
   }
 
   render() {
