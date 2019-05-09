@@ -43,6 +43,18 @@ class Index extends Component {
     Taro.showLoading({ title: '加载中...' })
     await userStore.fetchCommodity()
     await userStore.fetchArticleList()
+    if (Taro.getStorageSync('cookie')) {
+      const { data: { myself } } = await Taro.request({
+        method: 'GET',
+        url: 'https://algyun.cn:81/users/dashboard/me/',
+        header: {
+          'Cookie': Taro.getStorageSync('cookie')
+        }
+      })
+      userStore.setUserInfo(myself)
+      userStore.handleLogin(true);
+    }
+
   }
 
   componentDidShow() {

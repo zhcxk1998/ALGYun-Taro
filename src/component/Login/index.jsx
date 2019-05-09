@@ -68,11 +68,6 @@ class Login extends Component {
       default:
         this.showMessage('未知错误', 'error');
     }
-    // const res = await Taro.request({
-    //   url: 'https://algyun.cn:81/users/dashboard/me/',
-    //   method: 'GET'
-    // })
-    // console.log(res)
   }
 
   render() {

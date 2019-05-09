@@ -54,9 +54,6 @@ class DashBoard extends Component {
       return `/pages/${link}/index`
     });
     privateLink(isLogin, linkList[index])
-    // Taro.navigateTo({
-    //   url: linkList[index]
-    // })
   }
 
   render() {
