@@ -31,9 +31,9 @@ class App extends Component {
     ],
     window: {
       backgroundTextStyle: 'dark',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#F47054',
       navigationBarTitleText: 'ALGYun智能校园',
-      navigationBarTextStyle: 'black',
+      navigationBarTextStyle: 'white',
     }
   }
 
