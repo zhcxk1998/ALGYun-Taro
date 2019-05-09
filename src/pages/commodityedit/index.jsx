@@ -7,7 +7,7 @@ import './style.css';
 
 @inject('userStore')
 @observer
-class Edit extends Component {
+class CommodityEdit extends Component {
 
   config = {
     navigationBarTitleText: '编辑商品'
@@ -353,4 +353,4 @@ class Edit extends Component {
   }
 }
 
-export default Edit;
+export default CommodityEdit;

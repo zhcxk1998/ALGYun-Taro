@@ -26,7 +26,8 @@ class App extends Component {
       'pages/index/index',
       'pages/entry/index',
       'pages/sell/index',
-      'pages/edit/index',
+      'pages/commodityedit/index',
+      'pages/articleedit/index',
     ],
     window: {
       backgroundTextStyle: 'dark',

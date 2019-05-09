@@ -55,7 +55,7 @@ class Sell extends Component {
     const { myCommodityList } = userStore;
     const id = myCommodityList[index].id;
     Taro.navigateTo({
-      url: `/pages/edit/index?id=${id}`
+      url: `/pages/commodityedit/index?id=${id}`
     })
   }
 

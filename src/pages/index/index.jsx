@@ -71,11 +71,14 @@ class Index extends Component {
   gridClick = (item, index) => {
     const { userStore } = this.props;
     const { isLogin } = userStore;
+    this.setState({
+      isOpened: false
+    })
     if (index === 0) {
-      this.setState({
-        isOpened: false
-      })
-      privateLink(isLogin, '/pages/edit/index')
+      privateLink(isLogin, '/pages/commodityedit/index')
+    }
+    if (index === 1) {
+      privateLink(isLogin, '/pages/articleedit/index')
     }
   }
 

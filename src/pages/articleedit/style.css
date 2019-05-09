@@ -1,0 +1,20 @@
+.at-textarea {
+  border: none !important;
+}
+
+.at-input__title {
+  width: auto !important;
+}
+
+
+.article-container {
+  width: 96vw;
+  padding: 0 2vw;
+}
+
+
+.confirm {
+  margin-top: 40px;
+  color: #fff;
+  background: #fa4b2a;
+}
