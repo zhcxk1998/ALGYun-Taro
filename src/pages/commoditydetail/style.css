@@ -1,0 +1,62 @@
+.commodity-detail {
+  width: 92vw;
+  margin-bottom: 8vh;
+  padding: 0 4vw;
+}
+
+.header {
+  display: flex;
+
+  width: 92vw;
+  padding: 30px 0 15px 0;
+  border-bottom: #d7d7d7 2px solid;
+
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 78vw;
+  padding: 0 2vw;
+}
+
+.seller {
+  color: #333;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.time {
+  color: #999;
+  font-size: 0.8em;
+}
+
+.info {
+  margin: 30px 0;
+}
+
+.commodity-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 92vw;
+  height: 8vh;
+  color: #fa4b2a;
+  font-weight: bold;
+  border-top: #d7d7d7 2px solid;
+  background: #fff;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 70px;
+  color: #fff;
+  border-radius: 12px;
+  background: #fa4b2a;
+}

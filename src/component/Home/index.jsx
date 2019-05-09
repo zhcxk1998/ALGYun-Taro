@@ -26,8 +26,12 @@ class Home extends Component {
     })
   }
 
-  componentWillMount() {
-
+  commodityClick = (index) => {
+    const { userStore } = this.props;
+    const { commodityList } = userStore;
+    Taro.navigateTo({
+      url: `/pages/commoditydetail/index?id=${commodityList[index].id}`
+    })
   }
 
   render() {
@@ -69,7 +73,7 @@ class Home extends Component {
         </View>
         <View className='shop'>
           {commodityList && commodityList.map((item, index) => (
-            <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`}>
+            <View key={index} className={`shop-item ${index % 2 == 0 ? 'right-border' : ''}`} onClick={() => { this.commodityClick(index) }}>
               <View className='img' style={{ backgroundImage: `url(${item.commodity_img || 'https://cdn.suisuijiang.com/ImageMessage/5b4ee8321b53ec11c8505de5_1557065543477.jpeg?width=240&height=240'})` }} />
               <View className='description'>
                 {item.detail}
