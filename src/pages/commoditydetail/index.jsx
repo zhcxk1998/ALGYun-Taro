@@ -1,5 +1,6 @@
 import Taro, { Component } from '@tarojs/taro';
-import { View, Image, Button } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
+import {AtIcon} from 'taro-ui';
 
 import './style.css';
 
@@ -45,7 +46,10 @@ class CommodityDetail extends Component {
           <Image src='https://cdn.algbb.fun/avater/fat.jpg' style='width:8vh;height:8vh;' />
           <View className='header-info'>
             <View className='seller'>{commodity.seller.user}</View>
-            <View className='time'>{commodity.last_mod_time}</View>
+            <View className='footer'>
+              <View className='time'>{commodity.last_mod_time}</View>
+              <View className='view'><AtIcon value='eye' size='12' color='#999'></AtIcon>{commodity.views} 人看过</View>
+            </View>
           </View>
         </View>
         <View className='info'>{commodity.detail}</View>
