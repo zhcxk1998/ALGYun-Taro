@@ -58,7 +58,7 @@ class DashBoard extends Component {
 
   render() {
     const { userStore } = this.props;
-    const { isLogin, userInfo: { nickname, signature } } = userStore;
+    const { isLogin, userInfo: { nickname, signature, head } } = userStore;
     return (
       <View>
         <View className='dashBoard'>
@@ -69,7 +69,7 @@ class DashBoard extends Component {
               </View>
               :
               <View className='infomation'>
-                <Image src='http://cdn.algbb.fun/emoji/32.png' className='avater' />
+                <Image src={head || 'http://cdn.algbb.fun/emoji/32.png'} className='avater' />
                 <Text className='userName'>{nickname}</Text>
                 <Text className='info'>{signature}</Text>
               </View>
