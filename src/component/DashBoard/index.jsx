@@ -58,7 +58,7 @@ class DashBoard extends Component {
 
   render() {
     const { userStore } = this.props;
-    const { isLogin, userInfo: { nickname, signature, head } } = userStore;
+    const { isLogin, userInfo: { nickname, signature, head, email_active, es_check } } = userStore;
     return (
       <View>
         <View className='dashBoard'>
@@ -95,10 +95,20 @@ class DashBoard extends Component {
           </View>
           <View className='list'>
             <AtList>
-              <AtListItem
-                title='我的钱包'
-                thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/wallet.png'
-              />
+              {
+                !email_active ?
+                  <AtListItem
+                    title='验证邮箱'
+                    thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/email.png'
+                  /> : ''
+              }
+              {
+                !es_check ?
+                  <AtListItem
+                    title='学生认证'
+                    thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/%E5%AD%A6%E7%94%9F.png'
+                  /> : ''
+              }
               <AtListItem
                 title='购买记录'
                 thumb='https://algyun-taro-oss.oss-cn-shenzhen.aliyuncs.com/assets/img/icon/record.png'
